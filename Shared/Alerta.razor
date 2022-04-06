@@ -2,8 +2,13 @@
     <span class="oi oi-circle-x mr-2" aria-hidden="true"></span>
     <strong>@Mensagem</strong>
 </div>
+<div>
+    @ChildContent
+</div>
 
 @code {
     [Parameter]
     public string Mensagem { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
 }

@@ -1,0 +1,20 @@
+@page "/evento1"
+
+<label>Dados de eventos: Pressione a tecla A para mudar a cor</label>
+
+<div style="background-color: @cor; padding: 50px;"></div>
+
+<input type="text" @onkeypress="@(e => TeclaPressionada(e))" />
+
+@code {
+    private string cor = "red";
+
+    private void TeclaPressionada(KeyboardEventArgs args)
+    {
+        if (args.Key == "A" || args.Key == "a")
+        {
+            cor = "blue";
+            Console.WriteLine("A tecla A/a foi pressionada");
+        }
+    }
+}

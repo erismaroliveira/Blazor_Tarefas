@@ -1,0 +1,13 @@
+@page "/databinding"
+
+<h1>@nome</h1>
+
+<hr />
+
+<input type="text" @bind="nome" />
+<hr />
+<input type="text" @bind-value="nome" @bind-value:event="oninput" />
+
+@code {
+    public string nome { get; set; } = "Blazor";
+}
