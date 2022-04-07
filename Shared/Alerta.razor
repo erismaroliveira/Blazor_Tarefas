@@ -1,14 +1,35 @@
-<div class="alert alert-danger mt-4" role="alert">
+@*<div class="alert alert-danger mt-4" role="alert">
     <span class="oi oi-circle-x mr-2" aria-hidden="true"></span>
     <strong>@Mensagem</strong>
+</div>*@
+<div>
+    @if(ChildContent == null)
+    {
+        <span>Texto Padrão</span>
+    }
+    else
+    {
+        @ChildContent
+    }
 </div>
 <div>
-    @ChildContent
+    @if(ChildContent1 == null)
+    {
+        <span>Texto Padrão</span>
+    }
+    else
+    {
+        @ChildContent1
+    }
 </div>
 
 @code {
     [Parameter]
     public string Mensagem { get; set; }
+
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent1 { get; set; }
 }

@@ -1,45 +1,22 @@
 <h1>@Titulo</h1>
 
-@if (tarefas == null)
-{
-    <img src="https://media.giphy.com/media/y1ZBcOGOOtlpC/giphy.gif" />
-    <Alerta Mensagem="Carregando...">
-        <span style="color: blue">Carregando...</span>
-    </Alerta>
-    @* <p>Carregando...</p> *@
-}
-else if (!tarefas.Any())
-{
-    <Alerta Mensagem="Ainda não existem tarefas...">
-        <div class="card">
-            <div class="card-body">
-                Você precisa cadastrar algumas tarefas
-            </div>
-        </div>
-    </Alerta>
-    @* <p>Ainda não existem tarefas...</p> *@
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Ação</th>
-                <th>Data</th>
-                <th>Descrição</th>
-                <th>Concluída</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in tarefas)
-            {
-                <tr>
-                    <TarefaIndividual item="item" RemoverTarefa="RemoveTarefa" />
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ação</th>
+            <th>Data</th>
+            <th>Descrição</th>
+            <th>Concluída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ListaGenerica ListaItem="tarefas">
+            <Lista Context="tarefa">
+                <TarefaIndividual item="tarefa" RemoverTarefa="RemoveTarefa" />
+            </Lista>
+        </ListaGenerica>
+    </tbody>
+</table>
 
 @if (tarefas != null)
 {
@@ -53,6 +30,7 @@ else
 @code {
     [Parameter]
     public List<Tarefa> tarefas { get; set; }
+
     [Parameter]
     public string Titulo { get; set; }
 
@@ -63,11 +41,11 @@ else
         if (!string.IsNullOrWhiteSpace(novaTarefa))
         {
             tarefas.Add(new Tarefa
-            {
-                DataCriacao = DateTime.Now,
-                Descricao = novaTarefa,
-                Id = Guid.NewGuid()
-            });
+                {
+                    DataCriacao = DateTime.Now,
+                    Descricao = novaTarefa,
+                    Id = Guid.NewGuid()
+                });
             novaTarefa = "";
         }
     }
