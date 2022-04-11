@@ -78,7 +78,7 @@
 
     static int totalTarefas = 0;
 
-    private async void AdicionarNovaTarefa()
+    private async Task AdicionarNovaTarefa()
     {
         if (!string.IsNullOrWhiteSpace(novaTarefa))
         {
@@ -91,8 +91,15 @@
             novaTarefa = "";
             totalTarefas = tarefas.Count();
 
-            await js.InvokeVoidAsync("getTotalTarefas");
+            //await js.InvokeVoidAsync("getTotalTarefas");
+            await js.InvokeAsync<int>("getTotalTarefasInstancia", DotNetObjectReference.Create(this));
         }
+    }
+
+    [JSInvokable]
+    public Task<int> ObterTotalTarefasInstancia()
+    {
+        return Task.FromResult(totalTarefas);
     }
 
     [JSInvokable]

@@ -8,3 +8,10 @@ function getTotalTarefas() {
             alert("Total de Tarefas: " + resultado);
         });
 }
+
+function getTotalTarefasInstancia(dotnet) {
+    return dotnet.invokeMethodAsync("ObterTotalTarefasInstancia")
+        .then(resultado => {
+            alert("Total de Tarefas: " + resultado);
+        });
+}
