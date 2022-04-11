@@ -1,3 +1,5 @@
+@inject IJSRuntime js
+
 <h1>@Titulo</h1>
 
 <table class="table">
@@ -18,6 +20,10 @@
     </tbody>
 </table>
 
+<Confirma @ref="confirmacao" onCancela="CancelaConfirmacao" onConfirma="RemoverTarefaConfirmacao">
+    <div>Deseja excluir esta tarefa ?</div>
+</Confirma>
+
 @if (tarefas != null)
 {
     <div class="form-group">
@@ -36,22 +42,51 @@
 
     private string novaTarefa = "";
 
+    Confirma confirmacao;
+
+    Tarefa tarefaRemover;
+
+    private void RemoveTarefa(Tarefa tarefa)
+    {
+        //confirmacao.Exibir();
+        //tarefaRemover = tarefa;
+        //var resultado =
+        // await js.InvokeAsync<bool>("confirm", "Excluir Tarefa ?");
+
+        var resultado = ((IJSInProcessRuntime)js).Invoke<bool>("confirm", "Excluir esta tarefa ?");
+
+        if (resultado)
+        {
+            tarefas.Remove(tarefa);
+            //await js.InvokeVoidAsync("alert", "Tarefa excluída com sucesso");
+            //await js.InvokeAsync<object>("MostraAlerta", "Ok, tarefa excluída !!!");
+        }
+    }
+
+    private void RemoverTarefaConfirmacao()
+    {
+        tarefas.Remove(tarefaRemover);
+        tarefaRemover = null;
+        confirmacao.Ocultar();
+    }
+
+    private void CancelaConfirmacao()
+    {
+        confirmacao.Ocultar();
+        tarefaRemover = null;
+    }
+
     private void AdicionarNovaTarefa()
     {
         if (!string.IsNullOrWhiteSpace(novaTarefa))
         {
             tarefas.Add(new Tarefa
-                {
-                    DataCriacao = DateTime.Now,
-                    Descricao = novaTarefa,
-                    Id = Guid.NewGuid()
-                });
+            {
+                DataCriacao = DateTime.Now,
+                Descricao = novaTarefa,
+                Id = Guid.NewGuid()
+            });
             novaTarefa = "";
         }
-    }
-
-    private void RemoveTarefa(Tarefa tarefa)
-    {
-        tarefas.Remove(tarefas.First(t => t.Id == tarefa.Id));
     }
 }
